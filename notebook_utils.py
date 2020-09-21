@@ -6,7 +6,12 @@ import matplotlib.pyplot as plt
 import cv2
 
 def list_files(folder, pattern):
-    return list(Path(folder).glob(pattern))
+    files = list(Path(folder).glob(pattern))
+    files = [fn for fn in files
+                 if not Path(fn).match('*__MACOSX/*')]
+    files = [fn for fn in files
+                 if not Path(fn).match('*.ipynb_checkpoints/*')]
+    return files
 
 def unzip(file, output_dir):
     with zipfile.ZipFile(file, 'r') as zip_ref:
